@@ -5,7 +5,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 import static util.Util.buildAndSendMessage;
 
-class LogOutCommand implements Command {
+public class LogOutCommand implements Command {
     private final IDiscordClient bot;
     private final MessageReceivedEvent event;
 

@@ -14,13 +14,13 @@ public class Main {
     private final EventDispatcher dispatcher;
 
     public Main() {
-        token = readFromPropeties();
+        token = readFromProperties();
         bot = createClient(token);
         dispatcher = bot.getDispatcher(); //throws an NPE if bot is null
         dispatcher.registerListener(new CommandListener(bot)); //throws an NPE if dispatcher is null
     }
 
-    private String readFromPropeties() {
+    private String readFromProperties() {
         File file = new File("properties/creds.txt");
         BufferedReader reader;
         try {

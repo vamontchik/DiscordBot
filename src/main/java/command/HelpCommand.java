@@ -3,7 +3,7 @@ package command;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-import static util.Util.buildAndSendMessage;
+import static util.Util.buildAndSendEmbed;
 
 public class HelpCommand implements Command {
     private final IDiscordClient bot;
@@ -15,13 +15,22 @@ public class HelpCommand implements Command {
     }
 
     /*
-        Returns an Embed with a list of the supported commands. Not yet implemented.
+        Returns an Embed with a list of the supported commands.
      */
     @Override
     public void execute() {
-        buildAndSendMessage(
+        buildAndSendEmbed(
                 bot,
-                event.getAuthor().mention() + " Unimplemented command.",
+                new String[]{
+                        "!help",
+                        "!logout",
+                        "!help"},
+                new String[]{
+                        "Deletes the specified messages. Not yet implemented.",
+                        "Disconnects the bot.",
+                        "Returns an Embed with a list of the supported commands."},
+                "List of Commands",
+                "A quick run-down of all available commands.",
                 event.getChannel()
         );
     }
