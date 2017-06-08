@@ -22,18 +22,20 @@ public class Main {
 
     private String readFromPropeties() {
         File file = new File("properties/creds.txt");
-        BufferedReader reader = null;
+        BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader(file));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            return "";
         }
 
-        String result = null;
+        String result;
         try {
             result = reader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
+            return "";
         }
 
         try {
