@@ -22,7 +22,7 @@ public class HelpCommand implements Command {
         buildAndSendEmbed(
                 bot,
                 new String[]{
-                        "!help",
+                        "!delete",
                         "!logout",
                         "!help"},
                 new String[]{
