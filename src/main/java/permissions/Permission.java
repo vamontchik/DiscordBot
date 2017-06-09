@@ -30,8 +30,6 @@ public class Permission {
         switch (permission) {
             case MEOWERS:
                 permissionList.add(Value.MEOWERS);
-                permissionList.add(Value.ALL);
-                break;
             case ALL:
                 permissionList.add(Value.ALL);
                 break;
@@ -41,11 +39,14 @@ public class Permission {
     }
 
     private int getTopLevelPermissionValue() {
-        if (permissionList.contains(Value.MEOWERS)) {
-            return Value.MEOWERS.getValue();
-        } else {
-            return Value.ALL.getValue();
+        int highestValue = 0;
+        for (Value val : permissionList) {
+            int getVal = val.getValue();
+            if (getVal > highestValue) {
+                highestValue = getVal;
+            }
         }
+        return highestValue;
     }
 
     public boolean equalsOrGreater(Permission permission) {

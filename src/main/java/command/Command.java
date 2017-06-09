@@ -22,5 +22,6 @@ public abstract class Command {
     public abstract void execute();
 
     public boolean checkPermission() {
+        return obtainedPermission.equalsOrGreater(requiredPermission);
     }
 }
