@@ -1,17 +1,14 @@
 package command;
 
+import permissions.Permission;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 import static util.Util.buildAndSendMessage;
 
-public class DeleteCommand implements Command {
-    private final IDiscordClient bot;
-    private final MessageReceivedEvent event;
-
+public class DeleteCommand extends Command{
     public DeleteCommand(IDiscordClient bot, MessageReceivedEvent event) {
-        this.bot = bot;
-        this.event = event;
+        super(bot, event, new Permission(Permission.Value.MEOWERS));
     }
 
     /*

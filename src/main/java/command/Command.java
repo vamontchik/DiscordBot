@@ -12,14 +12,15 @@ public abstract class Command {
     protected final Permission requiredPermission;
     protected final Permission obtainedPermission;
 
+    public Command(IDiscordClient bot, MessageReceivedEvent event, Permission requiredPermission) {
         this.bot = bot;
         this.event = event;
+        this.requiredPermission = requiredPermission;
         this.obtainedPermission = setUpPermission(event.getAuthor());
     }
 
     public abstract void execute();
 
     public boolean checkPermission() {
-        return (requiredPermission.getValue() == obtainedPermission.getValue());
     }
 }

@@ -25,6 +25,7 @@ public class CommandListener {
     public void onMessageReceivedEvent(MessageReceivedEvent event) {
         if (isReady) {
             Command command = parseForCommand(event.getMessage().getContent(), event);
+            if (!(command instanceof FailedCommand || command instanceof IgnoreCommand) && !command.checkPermission()) {
                 command = new FailedCommand(bot, "invalid permissions", event);
             }
             command.execute();

@@ -1,17 +1,15 @@
 package command;
 
+import permissions.Permission;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 import static util.Util.buildAndSendEmbed;
 
-public class HelpCommand implements Command {
-    private final IDiscordClient bot;
-    private final MessageReceivedEvent event;
-
+public class HelpCommand extends Command {
     public HelpCommand(IDiscordClient bot, MessageReceivedEvent event) {
-        this.bot = bot;
-        this.event = event;
+        super(bot, event, new Permission(Permission.Value.ALL));
+
     }
 
     /*
@@ -26,8 +24,8 @@ public class HelpCommand implements Command {
                         "!logout",
                         "!help"},
                 new String[]{
-                        "Deletes the specified messages. Not yet implemented.",
-                        "Disconnects the bot.",
+                        "[Meowers] Deletes the specified messages. Not yet implemented.",
+                        "[Meowers] Disconnects the bot.",
                         "Returns an Embed with a list of the supported commands."},
                 "List of Commands",
                 "A quick run-down of all available commands.",

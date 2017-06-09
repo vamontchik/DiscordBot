@@ -1,19 +1,17 @@
 package command;
 
+import permissions.Permission;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 import static util.Util.buildAndSendMessage;
 
-public class FailedCommand implements Command {
-    private final IDiscordClient bot;
+public class FailedCommand extends Command {
     private final String errMessage;
-    private final MessageReceivedEvent event;
 
     public FailedCommand(IDiscordClient bot, String errMessage, MessageReceivedEvent event) {
-        this.bot = bot;
+        super(bot, event, new Permission(Permission.Value.MEOWERS));
         this.errMessage = errMessage;
-        this.event = event;
     }
 
     /*
@@ -23,7 +21,7 @@ public class FailedCommand implements Command {
     public void execute() {
         buildAndSendMessage(
                 bot,
-                event.getAuthor().mention() + " Could not construct command. Reason: " + errMessage,
+                event.getAuthor().mention() + " Could not execute command. Reason: " + errMessage,
                 event.getChannel()
         );
     }
