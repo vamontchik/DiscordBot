@@ -25,9 +25,6 @@ public class CommandListener {
     public void onMessageReceivedEvent(MessageReceivedEvent event) {
         if (isReady) {
             Command command = parseForCommand(event.getMessage().getContent(), event);
-            if (!(command instanceof FailedCommand || command instanceof IgnoreCommand) && !command.checkPermission()) {
-                command = new FailedCommand(bot, "invalid permissions", event);
-            }
             command.execute();
         }
     }
@@ -39,20 +36,29 @@ public class CommandListener {
          */
         String[] content = message.split(" ");
 
+        //Ignores the Permissions set-up, but this is allowed since this command simply ignores the user input
         if (!content[0].startsWith(commandIdentifier)) {
             return new IgnoreCommand(bot, event);
         }
 
         String command = content[0].substring(1).toLowerCase();
+        Command temp;
         switch (command) {
             case "logout":
-                return new LogOutCommand(bot, event);
+                temp = new LogOutCommand(bot, event);
+                break;
             case "help":
-                return new HelpCommand(bot, event);
-            case "delete":
-                return new DeleteCommand(bot, event);
+                temp = new HelpCommand(bot, event);
+                break;
             default:
-                return new FailedCommand(bot, "unrecognized command", event);
+                temp = new FailedCommand(bot, "unrecognized command", event);
+                break;
         }
+
+        if (!(temp instanceof FailedCommand) && !temp.checkPermission()) {
+            temp = new FailedCommand(bot, "invalid permissions", event);
+        }
+
+        return temp;
     }
 }

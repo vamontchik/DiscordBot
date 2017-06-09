@@ -20,11 +20,9 @@ public class HelpCommand extends Command {
         buildAndSendEmbed(
                 bot,
                 new String[]{
-                        "!delete",
                         "!logout",
                         "!help"},
                 new String[]{
-                        "[Meowers] Deletes the specified messages. Not yet implemented.",
                         "[Meowers] Disconnects the bot.",
                         "Returns an Embed with a list of the supported commands."},
                 "List of Commands",
