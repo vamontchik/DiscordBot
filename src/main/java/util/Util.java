@@ -136,6 +136,12 @@ public class Util {
             return new Permission(Permission.Value.ALL);
         }
 
+        try {
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         if (user.getStringID().equals(read)) {
             return new Permission(Permission.Value.MEOWERS);
         } else {
