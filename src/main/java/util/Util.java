@@ -141,7 +141,7 @@ public class Util {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         if (user.getStringID().equals(read)) {
             return new Permission(Permission.Value.MEOWERS);
         } else {
