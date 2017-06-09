@@ -25,6 +25,8 @@ public class CommandListener {
     public void onMessageReceivedEvent(MessageReceivedEvent event) {
         if (isReady) {
             Command command = parseForCommand(event.getMessage().getContent(), event);
+                command = new FailedCommand(bot, "invalid permissions", event);
+            }
             command.execute();
         }
     }
@@ -36,12 +38,8 @@ public class CommandListener {
          */
         String[] content = message.split(" ");
 
-        if (content.length == 0) {
-            return new FailedCommand(bot, "empty contents array", event);
-        }
-
         if (!content[0].startsWith(commandIdentifier)) {
-            return new FailedCommand(bot, "incorrect command identifier", event);
+            return new IgnoreCommand(bot, event);
         }
 
         String command = content[0].substring(1).toLowerCase();
