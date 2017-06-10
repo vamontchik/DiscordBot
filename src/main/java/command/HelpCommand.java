@@ -20,9 +20,11 @@ public class HelpCommand extends Command {
         buildAndSendEmbed(
                 bot,
                 new String[]{
+                        "!rps [rock/paper/scissors]",
                         "!logout",
                         "!help"},
                 new String[]{
+                        "A game of rock-paper-scissors with the bot. The second argument is which choice the user has made.",
                         "[Meowers] Disconnects the bot.",
                         "Returns an Embed with a list of the supported commands."},
                 "List of Commands",

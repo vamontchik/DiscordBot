@@ -5,6 +5,10 @@ import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.ReadyEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class CommandListener {
     private final String commandIdentifier;
     private final IDiscordClient bot;
@@ -42,6 +46,12 @@ public class CommandListener {
         }
 
         String command = content[0].substring(1).toLowerCase();
+
+        List<String> argList = new ArrayList<>();
+        for (int i = 1; i < content.length; i++) {
+            argList.add(content[i].trim());
+        }
+
         Command temp;
         switch (command) {
             case "logout":
@@ -49,6 +59,9 @@ public class CommandListener {
                 break;
             case "help":
                 temp = new HelpCommand(bot, event);
+                break;
+            case "rps":
+                temp = new RockPaperScissorsCommand(bot, event, argList);
                 break;
             default:
                 temp = new FailedCommand(bot, "unrecognized command", event);
