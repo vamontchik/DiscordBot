@@ -27,6 +27,7 @@ public class Util {
         RequestBuilder requestBuilder = new RequestBuilder(bot)
                 .shouldBufferRequests(true)
                 .onMissingPermissionsError(e -> {
+                    logger.debug("A MissingPermissionsException was thrown.", e);
                 })
                 .doAction(() -> {
                     messageBuilder.send();
@@ -66,6 +67,7 @@ public class Util {
         RequestBuilder requestBuilder = new RequestBuilder(bot)
                 .shouldBufferRequests(true)
                 .onMissingPermissionsError(e -> {
+                    logger.debug("A MissingPermissionsException was thrown.", e);
                 })
                 .doAction(() -> {
                     messageBuilder.send();
