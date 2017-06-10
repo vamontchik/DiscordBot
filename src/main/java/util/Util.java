@@ -1,35 +1,37 @@
 package util;
 
-import permissions.Permission;
-import sx.blah.discord.api.ClientBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.*;
 
-import java.io.*;
-import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 public class Util {
+    private static final Logger logger;
+    static {
+        logger = LoggerFactory.getLogger(Util.class);
+    }
+
     /*
         Constructs a message, using MessageBuilder, to be sent to the specified IChannel by means of the specified IDiscordClient.
         Utilizes RequestBuilder to handle RateLimitExceptions and MissingPermissionsExceptions should the occasion arise.
      */
     public static void buildAndSendMessage(IDiscordClient bot, String message, IChannel channel) {
-        MessageBuilder messageBuilder = new MessageBuilder(bot);
-        messageBuilder.withContent(message);
-        messageBuilder.withChannel(channel);
+        MessageBuilder messageBuilder = new MessageBuilder(bot)
+                .withContent(message)
+                .withChannel(channel);
 
-        RequestBuilder requestBuilder = new RequestBuilder(bot).shouldBufferRequests(true);
-        requestBuilder.onMissingPermissionsError(e -> {
-            //swallow exception silently...
-        });
-        requestBuilder.doAction(() -> {
-           messageBuilder.send();
-           return true;
-        });
+        RequestBuilder requestBuilder = new RequestBuilder(bot)
+                .shouldBufferRequests(true)
+                .onMissingPermissionsError(e -> {
+                })
+                .doAction(() -> {
+                    messageBuilder.send();
+                    return true;
+                });
         requestBuilder.execute();
     }
 
@@ -47,28 +49,28 @@ public class Util {
                                          String embedTitle,
                                          String embedDescription,
                                          IChannel channel) {
-        EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.withTitle(embedTitle);
-        embedBuilder.withDescription(embedDescription);
+        EmbedBuilder embedBuilder = new EmbedBuilder()
+                .withTitle(embedTitle)
+                .withDescription(embedDescription)
+                .withColor(0, 0, 255)
+                .withFooterText("github.com/meowingmeowers/meowingBot")
+                .withTimestamp(ZonedDateTime.now(ZoneOffset.UTC).toLocalDateTime());
         for (int i = 0; i < lineTitles.length; i++) {
             embedBuilder.appendField(lineTitles[i], lineFields[i], false);
         }
-        embedBuilder.withColor(0, 0, 255); //blue
-        embedBuilder.withFooterText("github.com/meowingmeowers/meowingBot");
-        embedBuilder.withTimestamp(ZonedDateTime.now(ZoneOffset.UTC).toLocalDateTime());
 
-        MessageBuilder messageBuilder = new MessageBuilder(bot);
-        messageBuilder.withEmbed(embedBuilder.build());
-        messageBuilder.withChannel(channel);
+        MessageBuilder messageBuilder = new MessageBuilder(bot)
+                .withEmbed(embedBuilder.build())
+                .withChannel(channel);
         
-        RequestBuilder requestBuilder = new RequestBuilder(bot).shouldBufferRequests(true);
-        requestBuilder.onMissingPermissionsError(e -> {
-            //swallow exception silently...
-        });
-        requestBuilder.doAction(() -> {
-            messageBuilder.send();
-            return true;
-        });
+        RequestBuilder requestBuilder = new RequestBuilder(bot)
+                .shouldBufferRequests(true)
+                .onMissingPermissionsError(e -> {
+                })
+                .doAction(() -> {
+                    messageBuilder.send();
+                    return true;
+                });
         requestBuilder.execute();
     }
 }

@@ -1,11 +1,9 @@
 package main;
 
 import command.CommandListener;
-import permissions.Permission;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventDispatcher;
-import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
 
 import java.io.*;
