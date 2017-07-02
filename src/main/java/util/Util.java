@@ -10,7 +10,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 public class Util {
-    private static final Logger logger;
+    public static final Logger logger;
     static {
         logger = LoggerFactory.getLogger(Util.class);
     }

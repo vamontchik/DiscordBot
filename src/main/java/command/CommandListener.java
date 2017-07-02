@@ -59,6 +59,9 @@ public class CommandListener {
             case "help":
                 temp = new HelpCommand(bot, event);
                 break;
+            case "delete":
+                temp = new DeleteCommand(bot, event, argList);
+                break;
             case "rps":
                 temp = new RockPaperScissorsCommand(bot, event, argList);
                 break;

@@ -22,10 +22,12 @@ public class HelpCommand extends Command {
                 new String[]{
                         "!rps [rock/paper/scissors]",
                         "!logout",
+                        "!delete [channelName] [amount]",
                         "!help"},
                 new String[]{
                         "A game of rock-paper-scissors with the bot. The second argument is which choice the user has made.",
                         "[Meowers] Disconnects the bot.",
+                        "[Meowers] Deletes messages from the specified channel with the specified amount.",
                         "Returns an Embed with a list of the supported commands."},
                 "List of Commands",
                 "A quick run-down of all available commands.",

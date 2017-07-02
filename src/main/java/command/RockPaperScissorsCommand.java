@@ -13,7 +13,7 @@ public class RockPaperScissorsCommand extends Command {
         ROCK, PAPER, SCISSORS
     }
 
-    private List<String> argsList;
+    private final List<String> argsList;
 
     public RockPaperScissorsCommand(IDiscordClient bot, MessageReceivedEvent event, List<String> argsList) {
         super(bot, event, new Permission(Permission.Value.ALL));
