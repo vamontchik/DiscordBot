@@ -27,6 +27,7 @@ public class DeleteCommand extends Command {
         //Empty Argument List
         if (argsList.isEmpty()) {
             buildAndSendMessage(bot, event.getAuthor().mention() + " Usage: !delete [channelName] [amount]", event.getChannel());
+            return;
         }
 
         //Usage of First Argument (and error handling)
@@ -58,8 +59,9 @@ public class DeleteCommand extends Command {
 
         //Execution
         for (IChannel channel : channelLocations) {
-            MessageHistory messageHistory = channel.getMessageHistory();
-            for (int i = 0; i < amountToDelete; i++) {
+            MessageHistory messageHistory = channel.getFullMessageHistory(); //getFullMessageHistory() is slow... which method from IChannel to use?
+            int messagesReceived = messageHistory.size();
+            for (int i = 0; i < amountToDelete && i < messagesReceived; i++) {
                 final int get = i;
                 RequestBuilder builder = new RequestBuilder(bot)
                         .shouldBufferRequests(true)
