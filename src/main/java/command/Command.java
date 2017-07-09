@@ -56,7 +56,7 @@ public abstract class Command {
 
     public abstract void execute();
 
-    public boolean checkPermission() {
+    public final boolean checkPermission() {
         return obtainedPermission.equalsOrGreater(requiredPermission);
     }
 }
