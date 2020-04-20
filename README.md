@@ -1,5 +1,5 @@
 # DiscordBot
-A simple bot created for Discord, a chat client, using the discord4j framework and sl4fj for logging.
+A Discord (a chat client) bot written in Java using the discord4j framework for ease of use and slf4j for logging. 
 
 Runs a few commands, like deletion and a tic-tac-toe game.
 
