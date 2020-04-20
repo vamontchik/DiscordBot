@@ -3,6 +3,6 @@ A Discord (a chat client) bot written in Java using the discord4j framework for 
 
 Runs a few commands, like deletion and a tic-tac-toe game.
 
-Invite via Discord's started invitation process and authentication.
+Invite via Discord's invitation process and authentication.
 
 
