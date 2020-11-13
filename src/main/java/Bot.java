@@ -38,7 +38,6 @@ public final class Bot {
     private static final List<String> actions;
     private static final Map<String, ServerInstance> serverToAudio;
 
-    // TODO: impl youtube search --- most relevant atm only, add random feature?
     // TODO: impl support for twitter
     static
     {
