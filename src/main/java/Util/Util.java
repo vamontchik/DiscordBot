@@ -70,7 +70,7 @@ public final class Util {
         int seconds = obj.toSecondsPart();
         if (hours > 0)
         {
-            if (hours < 9)
+            if (hours <= 9)
             {
                 strRep += "0" + hours + ":";
             }
@@ -79,7 +79,7 @@ public final class Util {
                 strRep += hours + ":";
             }
         }
-        if (minutes < 9)
+        if (minutes <= 9)
         {
             strRep += "0" + minutes + ":";
         }
@@ -87,7 +87,7 @@ public final class Util {
         {
             strRep += minutes + ":";
         }
-        if (seconds < 9)
+        if (seconds <= 9)
         {
             strRep += "0" + seconds;
         }
