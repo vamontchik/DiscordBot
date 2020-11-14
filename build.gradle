@@ -4,6 +4,12 @@ plugins {
 
 mainClassName = 'Bot'
 
+run {
+    if (project.hasProperty("appArgs")) {
+        args Eval.me(appArgs)
+    }
+}
+
 group 'org.example'
 version '1.0-SNAPSHOT'
 
