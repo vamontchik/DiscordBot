@@ -3,33 +3,33 @@ package Util;
 import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.rest.util.Color;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 public final class Util {
+    public static boolean IsNull(Object o) { return o == null; }
+
     public static void sendMessageAsEmbed(MessageChannel output, String msg)
     {
+        if (IsNull(output) || IsNull(msg)) return;
+
         output.createMessage(messageSpec ->
-        {
             messageSpec.setEmbed(embedSpec ->
             {
                 embedSpec.setColor(Color.ENDEAVOUR);
                 embedSpec.setTimestamp(Instant.now());
                 embedSpec.setFooter("bottom text", null);
                 embedSpec.setDescription(msg);
-            });
-        }).block();
+            })
+        ).block();
     }
 
     public static void sendMessageAsEmbedWithTitle(MessageChannel output, String msg, String title)
     {
+        if (IsNull(output) || IsNull(msg) || IsNull(title)) return;
+
         output.createMessage(messageSpec ->
-        {
             messageSpec.setEmbed(embedSpec ->
             {
                 embedSpec.setColor(Color.ENDEAVOUR);
@@ -37,12 +37,14 @@ public final class Util {
                 embedSpec.setTimestamp(Instant.now());
                 embedSpec.setFooter("bottom text", null);
                 embedSpec.setDescription(msg);
-            });
-        }).block();
+            })
+        ).block();
     }
 
     public static void sendMessagePlain(MessageChannel output, String msg)
     {
+        if (IsNull(output) || IsNull(msg)) return;
+
         output.createMessage(msg).block();
     }
 
