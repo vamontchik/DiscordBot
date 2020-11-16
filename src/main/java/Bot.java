@@ -6,8 +6,10 @@ import discord4j.core.DiscordClientBuilder;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.VoiceStateUpdateEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import discord4j.core.object.VoiceState;
 import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.core.object.entity.channel.VoiceChannel;
+import discord4j.voice.VoiceConnection;
 import instance.ServerInstance;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,6 +19,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
@@ -51,6 +54,7 @@ public final class Bot {
      */
     private static final ReentrantLock serverToAudioLock;
 
+    // TODO: solve race conditions around server instances ...
     // TODO: impl support for twitter ...
     // TODO: search / search-r functionality put into one function?
 
@@ -81,9 +85,30 @@ public final class Bot {
             if (IsNull(chn)) return;
 
             var voiceChannel = GetVoiceChannel(e, chn, serverInst);
+
             voiceChannel.ifPresent(vc -> {
                 var url = tokens[2];
-                var connection = vc.join(spec -> spec.setProvider(serverInst.getProvider())).block();
+                VoiceConnection connection;
+                try
+                {
+                    connection = vc.join(spec ->
+                        spec.setProvider(serverInst.getProvider())
+                            .setTimeout(Duration.ofSeconds(1)) // change to 1 second timeout instead of 10 seconds
+                    ).block();
+                }
+                catch (Exception e1)
+                {
+                    sendMessageAsEmbed(
+                        e.getMessage().getChannel().block(),
+                        "execFn for \"play\"" + System.lineSeparator() + e1.toString()
+                    );
+
+                    // TODO: invalidate safely?
+                    serverInst.setCurrVoiceChannel(null);
+                    serverInst.setCurrVoiceConnection(null);
+
+                    return;
+                }
                 serverInst.setCurrVoiceConnection(connection);
                 serverInst.getPlayerManager().loadItem(url, new AudioLoadResultHandler() {
                     @Override
@@ -543,27 +568,43 @@ public final class Bot {
     {
         if (IsNull(event) || IsNull(inst)) return Optional.empty();
         var ifPresent = inst.getCurrVoiceChannel();
+
         if (IsNull(ifPresent))
         {
             var m = event.getMember().orElse(null);
             if (IsNull(m))
             {
-                if (!IsNull(chn)) sendMessageAsEmbed(chn, "Internal Error: event.getMember() was null...");
+                sendMessageAsEmbed(chn, "Internal Error: event.getMember() was null...");
                 return Optional.empty();
             }
-            var voiceState = m.getVoiceState().block();
+
+            VoiceState voiceState;
+            try
+            {
+                voiceState = m.getVoiceState().block();
+            }
+            catch (Exception e)
+            {
+                System.err.println(e.toString());
+                sendMessageAsEmbed(chn, "::GetVoiceChannel ---> " + e.toString());
+                return Optional.empty();
+            }
+
             if (IsNull(voiceState))
             {
-                if (!IsNull(chn)) sendMessageAsEmbed(chn, "You need to join a voice channel first!");
+                sendMessageAsEmbed(chn, "You need to join a voice channel first!");
                 return Optional.empty();
             }
+
             var voiceChannel = voiceState.getChannel().block();
             if (IsNull(voiceChannel))
             {
-                if (!IsNull(chn)) sendMessageAsEmbed(chn, "Internal Error: voiceState.getChannel() was null...");
+                sendMessageAsEmbed(chn, "Internal Error: voiceState.getChannel() was null...");
                 return Optional.empty();
             }
+
             inst.setCurrVoiceChannel(voiceChannel);
+
             return Optional.of(voiceChannel);
         }
         return Optional.of(ifPresent);

@@ -14,6 +14,9 @@ public final class Util {
     {
         if (IsNull(output) || IsNull(msg)) return;
 
+        // TODO: it is possible that this block() will throw a RuntimeException
+        //       ex) bot doesn't have permissions to embed links, send message !
+
         output.createMessage(messageSpec ->
             messageSpec.setEmbed(embedSpec ->
             {
